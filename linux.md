@@ -1,4 +1,4 @@
-1.What is command for created multiple files at a time?
+1. What is command for created multiple files at a time?
 Touch FILE1 FILE2
 2. What is INODE and How to Identify?
 Its unique identification code for files and directories, it is generated automatically while
