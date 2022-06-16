@@ -1,6 +1,6 @@
-1. What is command for created multiple files at a time?
+#1.What is command for created multiple files at a time?
 Touch FILE1 FILE2
-2. What is INODE and How to Identify?
+#2. What is INODE and How to Identify?
 Its unique identification code for files and directories, it is generated automatically while
 create new file and directories
 Command to get inode number of a file and directory
@@ -8,7 +8,7 @@ ls -i filename
 ls -ldi directoryname
 Command to get inode usage
 df -i
-3. List of Permissions and Users
+#3. List of Permissions and Users
 Read(r), Write(w) and Execute(x) - Permissions
 Owner(u), Group Owners(g) and Others(o) – Users
 Every file has permissions defined for Owner(3 letters), Group ( 3 letters) and Others(3
@@ -35,21 +35,21 @@ For example:
 only.
 • chmod 327 foldername -- will give write and execute (3) permission for the user, w (2)
 fo the group, and read, write, and execute for the users.
-4. What is use of “top” command and how to sort Memory and User wise?
+#4. What is use of “top” command and how to sort Memory and User wise?
 Its used to real time monitor hardware utilization of linux machine.
 Press M to sort Memory wise result
 Press U to sort User wise result
-5. What is command for to force close one particular process
+#5. What is command for to force close one particular process
 kill -9 Processid
-6. What is File Path of DNS Configuration ?
+#6. What is File Path of DNS Configuration ?
 /etc/reolv.conf
-7. How to edit and save file using editors?
+#7. How to edit and save file using editors?
 The following commands are used to exit from vi editors.Hit Esc
 :wq saves the current work and exits the VI.
 :q! exits the VI without saving current work.
-8. What is file path of Alias name set by Permanent?
+#8. What is file path of Alias name set by Permanent?
 /etc/bashrc
-9. What types of Installation Tools in REDHAT?
+#9. What types of Installation Tools in REDHAT?
 RPM = Redhat Package Manager
 YUM = Yellow Dog Updated Modifier
 10. Tell me Linux Boot Sequence Flow?
