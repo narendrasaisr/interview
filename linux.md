@@ -84,7 +84,7 @@ language.
 There are multiple way to create files in unix, but the simple way to create a file is using “cat”
 and “Touch”
 command Syntax:
-cat > File name touch file name
+    > cat > File name touch file name
 ### How can I check which processes are running in my machine?
 To check process which are running in my machine I can use two commands. (a) TOP and
 (b) PS
