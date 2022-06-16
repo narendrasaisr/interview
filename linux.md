@@ -3,10 +3,11 @@
 ### What is INODE and How to Identify?
 Its unique identification code for files and directories, it is generated automatically while we create new file and directories\
 Command to get inode number of a file and directory
-    ls -i filename
-    ls -ldi directoryname  
+
+>    ls -i filename
+>    ls -ldi directoryname  
 Command to get inode usage
-    df -i
+>    df -i
 ### List of Permissions and Users
 > Read(r), Write(w) and Execute(x) - Permissions
 > Owner(u), Group Owners(g) and Others(o) – Users
