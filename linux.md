@@ -1,6 +1,6 @@
-### 1. What is command for created multiple files at a time?
+### What is command for created multiple files at a time?
 Touch FILE1 FILE2
-# 2. What is INODE and How to Identify?
+### What is INODE and How to Identify?
 Its unique identification code for files and directories, it is generated automatically while
 create new file and directories
 Command to get inode number of a file and directory
@@ -8,7 +8,7 @@ ls -i filename
 ls -ldi directoryname
 Command to get inode usage
 df -i
-# 3. List of Permissions and Users
+### List of Permissions and Users
 Read(r), Write(w) and Execute(x) - Permissions
 Owner(u), Group Owners(g) and Others(o) – Users
 Every file has permissions defined for Owner(3 letters), Group ( 3 letters) and Others(3
@@ -35,24 +35,24 @@ For example:
 only.
 • chmod 327 foldername -- will give write and execute (3) permission for the user, w (2)
 fo the group, and read, write, and execute for the users.
-#4. What is use of “top” command and how to sort Memory and User wise?
+### What is use of “top” command and how to sort Memory and User wise?
 Its used to real time monitor hardware utilization of linux machine.
 Press M to sort Memory wise result
 Press U to sort User wise result
-#5. What is command for to force close one particular process
+### What is command for to force close one particular process
 kill -9 Processid
 #6. What is File Path of DNS Configuration ?
 /etc/reolv.conf
-#7. How to edit and save file using editors?
+### How to edit and save file using editors?
 The following commands are used to exit from vi editors.Hit Esc
 :wq saves the current work and exits the VI.
 :q! exits the VI without saving current work.
-#8. What is file path of Alias name set by Permanent?
+### What is file path of Alias name set by Permanent?
 /etc/bashrc
-#9. What types of Installation Tools in REDHAT?
+### What types of Installation Tools in REDHAT?
 RPM = Redhat Package Manager
 YUM = Yellow Dog Updated Modifier
-10. Tell me Linux Boot Sequence Flow?
+### Tell me Linux Boot Sequence Flow?
 BIOS → MBR → Boot Loader → Kernal → Runlevel
 BIOS Basic Input output system, executes MBR
 MBR Master boot record executes GRUB
@@ -60,63 +60,59 @@ GRUB Grand unified boot loader
 Kernel Executes /sbin/init
 init Executes run level programs
 Runlevel executes from /etc/rc.d/rc*.d/
-11. Types of Zone in DNS?
+### Types of Zone in DNS?
 Forward lookup zone Reverse lookup zone
-12. What is LDAP
+### What is LDAP
 The Lightweight Directory Access Protocol (LDAP) is a set of open protocols used to access
 centrally stored information over a network.
-13. What is command package install using YUM without ask Prompt?
+### What is command package install using YUM without ask Prompt?
 yum install packagename -y
-14. What is command Uninstall package?
+### What is command Uninstall package?
 yum remove packagename
-15. What is command package re-install using YUM without ask Prompt?
+### What is command package re-install using YUM without ask Prompt?
 yum reinstall packagename -y
-16. Location of Cron file in linux?
+### Location of Cron file in linux?
 /var/spool/cron
-17. What is command for to see Particular user Job Schedule ?
+### What is command for to see Particular user Job Schedule ?
 crontab -lu username
-18. What is command for restart cron service?
+### What is command for restart cron service?
 service crond restart
-19. What is Kernel un Unix Operating system?
+### What is Kernel un Unix Operating system?
 Kernel is the heart of operating system. It interacts with shell and executes the machine level
 language.
-20. How to create a file in Unix?
+### How to create a file in Unix?
 There are multiple way to create files in unix, but the simple way to create a file is using “cat”
 and “Touch”
 command Syntax:
 cat > File name touch file name
-21. How can I check which processes are running in my machine?
+### How can I check which processes are running in my machine?
 To check process which are running in my machine I can use two commands. (a) TOP and
 (b) PS
-22. What is the difference between TOP and PS command?
+### What is the difference between TOP and PS command?
 Top command gives the dynamic view of the processes are running in the server and
 generally the dynamic change happens in every 3 second. Whereas PS commands gives
 the static view of the processes.
-23. You used TOP command and without aborting the TOP process I need to kill one
+### You used TOP command and without aborting the TOP process I need to kill one
 process. Is it possible to kill ?
 Yes TOP command it self has a command prompt. Type K then it will ask you for the PID of
 the process to kill. Hit the PID and enter, it will kill the process.
-24. What is the difference between creating a file in cat and in touch command?
+### What is the difference between creating a file in cat and in touch command?
 cat command creates a file and we can save some data inside the file but touch command
 by default will create a blank file.
-25. How can I create multiple directories at a time? Say I want to create a directory D1
+### How can I create multiple directories at a time? Say I want to create a directory D1
 and inside that D2 and inside that D3. Is it possible? If yes how ?
 Yes creating multiple directories is possible. In this scenario the below command works.
 Mkdir –p D1/D2/D3
-26. I want to create D1, under that D2 and D3. Inside D2 I want D4 and inside D3 I want
+### I want to create D1, under that D2 and D3. Inside D2 I want D4 and inside D3 I want
 D5 to be created. How is it possible?
 The below command will work for it. mkdir –p D1/D2/D4 D1/D3/D5
-27. How can I check in which directory I am in ?
+### How can I check in which directory I am in ?
 Use PWD command to check which directory you are in.
-28. We are using so many commands and getting output. Have you ever wondered how
-the commands are executing and getting you the output?
-Yes every command in Unix is a C program in the backend. When we type a command and
-hit enter the program runs in the backend and gives you the output.
-We can view the C program as well as below.
-type <Command Name> ->hit enter, it will give you a path where the program the command
-is located. You can view the program by doing cat and the path name. it will open a C
-program file in decrypted mode.
-29. How can I list the directories and the files ?
+### We are using so many commands and getting output. Have you ever wondered how the commands are executing and getting you the output?
+Yes every command in Unix is a C program in the backend. When we type a command and hit enter the program runs in the backend and gives you the output. We can view the C program as well as below.
+> type Command Name
+it will give you a path where the program the command is located. You can view the program by doing cat and the path name. it will open a C program file in decrypted mode.
+### How can I list the directories and the files ?
 Using ls command. I can view the directories and files of the system.
 30. How can I view hidden files in a system ?
 Using ls –a command I can view the hidden files of the sytem
