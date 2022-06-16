@@ -9,9 +9,9 @@ ls -ldi directoryname
 Command to get inode usage
 df -i
 ### List of Permissions and Users
-Read(r), Write(w) and Execute(x) - Permissions
-Owner(u), Group Owners(g) and Others(o) – Users
-Every file has permissions defined for Owner(3 letters), Group ( 3 letters) and Others(3
+> Read(r), Write(w) and Execute(x) - Permissions
+> Owner(u), Group Owners(g) and Others(o) – Users
+> Every file has permissions defined for Owner(3 letters), Group ( 3 letters) and Others(3
 letters)
 If you run a ls -ltr in terminal you’ll get below
 drwxr--r-- 2 tom staff 64 Jun 21 2021 samplefiles
