@@ -110,7 +110,7 @@ The below command will work for it. mkdir –p D1/D2/D4 D1/D3/D5
 Use PWD command to check which directory you are in.
 ### We are using so many commands and getting output. Have you ever wondered how the commands are executing and getting you the output?
 Yes every command in Unix is a C program in the backend. When we type a command and hit enter the program runs in the backend and gives you the output. We can view the C program as well as below.
-> type Command Name
+> type Command Name.
 it will give you a path where the program the command is located. You can view the program by doing cat and the path name. it will open a C program file in decrypted mode.
 ### How can I list the directories and the files ?
 Using ls command. I can view the directories and files of the system.
