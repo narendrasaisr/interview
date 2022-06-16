@@ -1,6 +1,6 @@
-#1.What is command for created multiple files at a time?
+# 1.What is command for created multiple files at a time?
 Touch FILE1 FILE2
-#2. What is INODE and How to Identify?
+# 2. What is INODE and How to Identify?
 Its unique identification code for files and directories, it is generated automatically while
 create new file and directories
 Command to get inode number of a file and directory
@@ -8,7 +8,7 @@ ls -i filename
 ls -ldi directoryname
 Command to get inode usage
 df -i
-#3. List of Permissions and Users
+# 3. List of Permissions and Users
 Read(r), Write(w) and Execute(x) - Permissions
 Owner(u), Group Owners(g) and Others(o) – Users
 Every file has permissions defined for Owner(3 letters), Group ( 3 letters) and Others(3
