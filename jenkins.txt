@@ -1,0 +1,105 @@
+What are the differences between Continuous Integration, Continuous Delivery, and Continuous Deployment?
+    Continuous Integration
+            Continuous Integration (CI) is a DevOps software development practice that permits developers to combine/merge the changes to 
+            their code in the central repository to run automated builds and tests.
+Continuous Delivery
+            Continuous Delivery (CD) refers to the building, testing, and delivering improvements to the software code. T
+            he most critical part of the CD is that the code is always in a deployable state.
+Continuous Deployment
+            Continuous Deployment (CD) is the ultimate stage in the DevOps pipeline. 
+            It  refers to automatic release of any developer changes from the repository to the production stage.
+
+How can you deploy a custom build of a core plugin?
+            If you wish to deploy a custom build of a core plugin, you follow the following steps:
+
+            Stop Jenkins
+            Then copy the custom HPI to $Jenkins_Home/plugins
+            After that, delete the previously expanded plugin directory
+            Next, make an empty file called <plugin>.hpi.pinned
+            Finally, start Jenkins
+
+What could be the steps to move or copy Jenkins from one server to another?
+                    There are multiple ways to move or copy Jenkins from one server to another:
+
+                    You may move a job from one Jenkins installation to another just by copying the corresponding job directory.
+                    You may make a copy of an already existing job by making a clone of the job directory with an uncommon name.
+                    You may also just rename a current job by renaming a directory.
+What is the process of making a Multibranch Pipeline in Jenkins?
+            To create a Multibranch Pipeline in Jenkins, follow the following steps:
+            Open the Jenkins dashboard and create a new item by clicking on 'new item'
+            Enter the project name and, from the options, select 'Multibranch pipeline'
+            Click on OK
+            Then select the repository location, branch source (GitHub/Bitbucket), and add the branch source credentials.
+            Save the project
+            Now, Jenkins automatically creates new Multibranch Pipelines for repositories
+            Then to connect to the GitHub repo, we need the HookURL
+            To get this URL from the repository settings, add this HookURL to the Webhooks section
+            Once the jobs are created, Jenkins will automatically trigger the build
+How can the parameters be defined in Jenkins?
+            In Jenkins, a build can take many input parameters to execute. 
+            To define parameters for the job, select the “this project is parameterized” box.
+            The drop down “Add Parameter” is enabled with the parameter types list. Any number of parameters may be added in the list.
+Explain the ways to configure Jenkins node agent to communicate with Jenkins master?
+                There are two ways to configure Jenkins node agent to communicate with Jenkins master:
+
+                Browser–If we launch the Jenkins node agent from a browser, a Java Web Start or JNLP file is downloaded. 
+                The downloaded file launches a new process on the client machine to run jobs.
+                Command-line–If you want to start the node agent using the command line, you need the executable agent.jar file. 
+                When this file runs, it launches a client's process to communicate with the Jenkins master to run build jobs.
+What is the use of the JENKINS_HOME directory?
+            JENKINS_HOME directory is the place where all the settings, logs, and configurations are stored. It stores all this information in XML files. 
+            The directory contains a subdirectory for every Jenkins build job being operated. 
+            Every directory has two subdirectories:  builds and workspace., and some other files as well.
+            These sub directories are important, as the workspace directory is located at the place where Jenkins is building the project, and it contains the source code.
+            The builds directory stores the history of all the builds performed for this job. 
+declarative pipeline
+                            "Jenkinsfile (Declarative Pipeline)
+                    pipeline {
+                        agent any
+
+                        stages {
+                            stage('Build') {
+                                steps {
+                                    sh 'Building..'
+                                }
+                            }
+                            stage('Test') {
+                                steps {
+                                    sh 'Testing..'
+                                }
+                            }
+                            stage('Deploy') {
+                                steps {
+                                    sh 'Deploying....'
+                                }
+                            }
+                        }
+                    }"
+
+Sciprtedpipeline 
+                    "node ('node-1') {
+                    stage('Source') {
+                        git 'https://github.com/digitalvarys/jenkins-tutorials.git''
+                    }
+                    stage('Compile') {
+                        def gradle_home = tool 'gradle4'
+                        sh ""'${gradle_home}/bin/gradle' clean compileJava test""
+                    }
+                    }"
+differences between Sciprtedpipeline and declarative
+    The key difference between Declarative pipeline and Scripted pipeline would be with respect to their syntaxes and their flexibility. 
+
+What is a shared libraries
+        A shared library is a collection of independent Groovy scripts which you pull into your Jenkinsfile at runtime.
+        the Library can be stored, like everything else, in a Git repository. This means you can version, tag,
+         and do all the cool stuff you’re used to with Git
+                 libraries {
+                 lib('pipeline-library-demo')
+                  }
+
+                pipeline {
+                    // Your pipeline would go here....
+                }
+
+
+    

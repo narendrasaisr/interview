@@ -1,0 +1,19 @@
+Hi this is Gowtham, i had been working in devops from past 5 years ,earlier i was into build and release management 
+later i had been  mooved to complete cicd process
+currently i am working for Acer  and my project is for anthem named CMMLE
+we are having around 50 microservices out of that 10 are long running microservices 
+and remaining are data pipelines 
+
+we are using bitbucket for source code management and jenkins for cicd as well and then 
+docker for containerization and kubernetes for orchestration 
+our application is hosted in azure cloud , we are having 7 environments dev,sit,release-sit,uat,stage,prod and prod-dr. 
+
+my day to day responsibilities are 
+Maintaing cicd flow in a smoother way , 
+assisting developers with their build issues and fixing them as well 
+taking care of release activities based on the plan 
+we are having a seperate monotioring team to monitor our prod ,if any issue reported fixing those if it is in our scope 
+
+we are following safe agile and based on the planing we will be assigned some jiras as well 
+and working on those jiras based on the sprint 
+Gowtham 

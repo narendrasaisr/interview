@@ -1,0 +1,68 @@
+git revert	
+        git revert is used to record some new commits to reverse the effect of some earlier commits (often only a faulty one). 
+        If you want to throw away all uncommitted changes in your working directory, you should see git-reset[1], particularly the --hard option. 
+        If you want to extract specific files as they were in another commit, you should see git-restore[1], specifically the --source option. 
+
+Git Reset	
+        The git reset command allows you to RESET your current head to a specified state. You can reset the state of specific files as well as an entire branch. 
+        This is useful if you haven't pushed your commit up to GitHub or another remote repository yet
+difference between "fetch" and "pull"?	
+            "git fetch really only downloads new data from a remote repository - but it doesn't integrate any of this new data into your working files. 
+            Fetch is great for getting a fresh view on all the things that happened in a remote repository.
+            git pull, in contrast, not only downloads new data; it also directly integrates it into your current working copy files. 
+            You can think of pull as a combination of fetch and merge (or, alternatively, rebase)."
+git stash	
+        git stash clear"	" [branch name]	To merge a branch into an active branch
+git stash	
+            To stash the changes in a dirty working directory
+            git stash clear	To remove all the stashed entries"
+Git pull 	
+        git fetch just "downloads" the changes from the remote to your local repository. git pull downloads the changes and merges them into your current branch.
+Git Fetch
+	The git fetch command downloads commits, files, and refs from a remote repository into your local repo. 
+    Fetching is what you do when you want to see what everybody else has been working on. 
+    It’s similar to svn update in that it lets you see how the central history has progressed, 
+    but it doesn’t force you to actually merge the changes into your repository
+git merge	
+        In Git, the merging is a procedure to connect the forked history. 
+        It joins two or more development history together. 
+        The git merge command facilitates you to take the data created by git branch and integrate them into a single branch. 
+        Git merge will associate a series of commits into one unified history.
+How do you cherry-pick a merge commit?
+            Cherry-pick uses a diff to find the difference between branches.
+            As a merge commit belongs to a different branch, it has two parents and two changesets.
+            For example, if you have merge commit ref 63ad84c, you have to specify -m and use parent 1 as 
+            a base:
+            git checkout release branch
+            git cherry-pick -m 1 63ad84c
+
+What is the function of ‘git reset’?
+ The function of ‘Git Reset’ is to reset your index as well as the working directory to 
+the state of your last commit
+
+How will you resolve conflict in Git?
+            Conflicts occur whenever there are multiple people working on the same file across multiple branches. In such cases, git won't be able to resolve it automatically as it is not capable of deciding what changes has to get the precedence.
+            Following are the steps are done in order to resolve git conflicts:
+            1. Identify the files that have conflicts.
+            2. Discuss with members who have worked on the file and ensure that the required changes are done in the file.
+            3. Add these files to the staged section by using the git add command.
+            4. Commit these changes using the git commit command.
+            5. Finally, push the changes to the branch using the git
+Can you tell the differences between git revert and git reset?
+            git revert 	
+            This command is used for creating a new commit that undoes the changes of the previous commit.	
+            This command is used for undoing the local changes done in the git repository
+            git reset
+            Using this command adds a new history to the project without modifying the existing history	
+            This command operates on the commit history, git index, and the working directory.
+What does git rebase do?
+                Rebasing is the reapplying of commits on top of another base trip. A sequence of commits is applied from distinct branches into the final commit. 
+                It is a linear process of merging and an alternative to the git merge command.
+                Rebasing makes it seem like one has created a branch from a different commit.
+
+Git pull = git fetch + git merge
+
+What does 'hooks' comprise of in Git?
+            Shell scripts which are enacted after running the relating git commands. 
+            For instance, Git will attempt to execute the post-commit content after you run a commit.
+

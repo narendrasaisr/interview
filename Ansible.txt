@@ -1,0 +1,162 @@
+Ansible role 
+  Ansible roles are used to simplify Ansible playbook which means we can break a complex Ansible playbook in independent and reusable roles
+   that are used to automatically load certain var_files, tasks, and handlers as per pre-defined file structure
+By default Ansible will look in each directory within a role for a main.yml file for relevant content (also main.yaml and main):
+
+                    tasks/main.yml - the main list of tasks that the role executes.
+
+                    handlers/main.yml - handlers, which may be used within or outside this role.
+
+                    library/my_module.py - modules, which may be used within this role (see Embedding modules and plugins in roles for more information).
+
+                    defaults/main.yml - default variables for the role (see Using Variables for more information). These variables have the lowest priority of any variables available, and can be easily overridden by any other variable, including inventory variables.
+
+                    vars/main.yml - other variables for the role (see Using Variables for more information).
+
+                    files/main.yml - files that the role deploys.
+
+                    templates/main.yml - templates that the role deploys.
+
+                    meta/main.yml - metadata for the role, including role dependencies.
+
+Ansible modules
+        1. Package management 
+                - name: Install a list of packages
+                    yum:
+                        name:
+                        - nginx
+                        - postgresql
+                        - postgresql-server
+                        state: present
+        2.Service 
+              - name: Start service foo, based on running process /usr/bin/foo     
+                     service:
+                     name: foo
+                       pattern: /usr/bin/foo
+                       state: started
+             - name: Restart network service for interface eth0
+                    service:
+                        name: network
+                        state: restarted
+                        args: eth0
+        3.Copy
+             - name: Copy a new "ntp.conf file into place, backing up the original if it differs from the copied version
+                    copy:
+                        src: /mine/ntp.conf
+                        dest: /etc/ntp.conf
+                        owner: root
+                        group: root
+                        mode: '0644'
+                        backup: yes
+        4.Debug
+              - name: Write some content in a file /tmp/foo.txt
+                    copy:
+                        dest: /tmp/foo.txt
+                        content: |
+                        Good Morning!
+                        Awesome sunshine today.
+                        register: display_file_content
+                    - name: Debug display_file_content
+                        debug:
+                        var: display_file_content
+                        verbosity: 2
+        5.File
+                    - name: Change file ownership, group and permissions
+                            file:
+                                path: /etc/foo.conf
+                                owner: foo
+                                group: foo
+                                mode: '0644'
+        6.Lineinfile
+                It ensures a particular line is in a file or replaces an existing line using a back-referenced regular expression.
+                It's primarily useful when you want to change just a single line in a file.
+                     - name: Ensure SELinux is set to enforcing mode
+                            lineinfile:
+                                path: /etc/selinux/config
+                                regexp: '^SELINUX='
+                                line: SELINUX=enforcing
+
+        7.Git
+             - git:
+                    repo: https://github.com/ansible/ansible-examples.git
+                    dest: /src/ansible-examples
+                    separate_git_dir: /src/ansible-examples.git   
+
+       8.Cli_command
+                  - name: configurable backup path
+                        cli_config:
+                            config: "{{ lookup('template', 'basic/config.j2') }}"
+                            backup: yes
+                            backup_options:
+                            filename: backup.cfg
+                            dir_path: /home/user
+      9. Archive
+                 - name: Compress directory /path/to/foo/ into /path/to/foo.tgz
+                    archive:
+                        path: /path/to/foo
+                        dest: /path/to/foo.tgz
+       10. Command
+                    - name: Change the working directory to somedir/ and run the command as db_owner if /path/to/database does not exist.
+                    command: /usr/bin/make_database.sh db_user db_name
+                    become: yes
+                    become_user: db_owner
+                    args:
+                        chdir: somedir/
+                        creates: /path/to/make_database
+ 3. ---
+                       hosts: ansible_client.lab.com 
+                        vars:
+                        http_port: 80
+                        remote_user: root
+                        tasks:
+                                - name: Install nginx
+                                    yum:
+                                     name: nginx
+                                     state: latest
+                                        tags: nginx_service
+                                - name: copy configuration file
+                                    template:
+                                        src: /root/index.html
+                                         dest: /usr/share/nginx/html
+                                 notify:
+                                - restart nginx
+                                - name: Check nginx service is running and enabled
+                                service:
+                                  name: nginx
+                                    state: started
+                                    enabled: yes
+                                    tags: nginx_service
+                                handlers:
+                                - name: restart nginx
+                                    service:
+                                         name: nginx
+                                         state: restarted
+state: restarted                       
+1. host-1. hosts: It defines a server or a group of servers on which we want to run the tasks mentioned under it. 
+                    We can use a pattern to define the hosts. We can use patterns to define hosts. 
+                    We can run tasks against one or more servers or one or more groups separated by colons, 
+                    like host1:host2 or webserver:dbserver. We can use wildcards as well like ‘web*’ defines all hosts that start with the ‘web’
+2.vars: It defines variables that we can use in the playbook. Same as the other programming language
+3. remote_user: It defines user under which tasks are going to run on the hosts. We can define different remote_user to each task if requires. 
+                    We can use ‘become’ keyword and make it ‘yes’ to provide sudo access to the remote_user if the remote user is not root,
+4.tasks: We define tasks in a playbook. It defines what to do on the mentioned hosts. Tasks execute in sequence as define in the playbook from top to bottom.
+                 Each task has one module associated with it that tells tasks what action has to perform on the hosts.
+5.tags: We can give a tag to the task and we can specify the tag while running the playbook so that only those tasks will run which has the same tag. 
+            It is useful if there are many tasks in the same play
+6. handlers: It defines the next action if there is any change made to the host after completion of any tasks that has a ‘notify’ attribute associated with it.
+                Handler executes only once even if the same handler notified by multiple tasks.
+                It runs at the end when all tasks in the play have been completed. There are multiple handlers can be notified by a single task.
+                We have one handler named ‘restart nginx’ in the above example and it will be triggered by the task ‘Copy configuration file’ 
+                as we need to restart the nginx service 
+                if any configuration changes have been made.
+7. ansible_vault
+      With ansible-vault you can encrypt any structured data file used by Ansible
+       So ansible vault encrypt file can encrypt files or playbooks used by Ansible.
+       ansible-vault create filename.yaml
+       ansible-playbook launch.yml --ask-vault-pass
+       ansible-playbook --vault-id vault-pass1 --vault-id vault-pass2 filename.yml
+
+8.
+
+
+

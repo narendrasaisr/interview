@@ -1,0 +1,203 @@
+1. kubernetes architecture
+     The master node has various components, such as:  
+    1. ETCD -stores the configuration details and essential values
+            -Communicates with all other components to receive the commands to perform an action
+    2. Controller Manager 
+             -responsible for gathering information and sending it to the API Server
+             -key controllers are the replication controllers, endpoint controller, namespace controllers, and service account controllers 
+             - controller manager runs controllers to administer nodes and endpoints
+    2.  Scheduler
+             -The scheduler assigns the tasks to the slave nodes
+             -It is responsible for distributing the workload and stores resource usage information on every node
+             -Tracks how the working load is used on clusters and places the workload on available resources.
+     3. API Server
+              -Kubernetes uses the API server to perform all operations on the cluster
+              -it is resposible for all the activities and it acts a  brain to cluster
+      4. Kubectl
+               - Kubectl controls the Kubernetes cluster manager
+        Syntax - kubectl [flags]
+      Slave 
+       1.Kubelet 
+                -It gets the configuration of a pod from the API server and ensures that the containers are working efficiently
+                -The kubelet process is responsible for maintaining the work status and the node server
+       2. Kubernetes Proxy
+                - Acts as a load balancer and network proxy to perform service on a single worker node
+                -Manages pods on nodes, volumes, secrets, the creation of new containers, health check-ups, etc
+2. What is a pod 
+         -Pods are the smallest, most basic deployable objects in Kubernetes. A Pod represents a single instance of a running process in your cluster
+         -Network: Pods are automatically assigned unique IP addresses. Pod containers share the same network namespace, including IP address and network ports. 
+                  Containers in a Pod communicate with each other inside the Pod on localhost.
+        -Storage: Pods can specify a set of shared storage volumes that can be shared among the containers.
+3. Pod lifecycle
+   Pending: Pod has been created and accepted by the cluster, but one or more of its containers are not yet running. \
+   This phase includes time spent being scheduled on a node and downloading images.
+   Running: Pod has been bound to a node, and all of the containers have been created. At least one container is running, is in the process of starting, or is restarting.
+   Succeeded: All containers in the Pod have terminated successfully. Terminated Pods do not restart.
+   Failed: All containers in the Pod have terminated, and at least one container has terminated in failure. A container "fails" if it exits with a non-zero status.
+   Unknown: The state of the Pod cannot be determined.
+4. Pod termination
+    Kubernetes imposes a default graceful termination period of 30 seconds. 
+    When deleting a Pod you can override this grace period by setting the --grace-period flag 
+    to the number of seconds to wait for the Pod to terminate before forcibly terminating it
+5. Container states
+           -ErrImagePull-Generic image retrieval error.
+           -ErrImagePullBackOff-Image retrieval failed and is backed off.
+           -ErrInvalidImageName-The specified image name was invalid.
+           -ErrImageInspect-Image inspection did not succeed.
+           -ErrImageNeverPull-PullPolicy is set to NeverPullImage and the target image is not present locally on the host.
+           -ErrRegistryUnavailable-When attempting to retrieve an image from a registry, an HTTP error was encountered.
+           -ErrContainerNotFound-The specified container is either not present or not managed by the kubelet, within the declared pod.
+          -ErrRunInitContainer-Container initialization failed.
+           -ErrRunContainer-None of the pod’s containers started successfully.
+           -ErrKillContainer-None of the pod’s containers were killed successfully.
+           -ErrCrashLoopBackOff-A container has terminated. The kubelet will not attempt to restart it.
+6. Deployment 
+        -A deployment is responsible for keeping a set of pods running.
+        -A Deployment provides  updates for Pods and ReplicaSets.
+        Strategy
+        Rolling update strategy - rolling update strategy provides a controlled, phased replacement of the application's pods, 
+                                  ensuring that there are always a minimum number available.
+                                 The deployment makes sure that, by default, a maximum of only 25% of pods are unavailable at any time, 
+                                 and it also won’t over provision more than 25% of the number of pods specified in the desired state. 
+        Recreate strategy - A recreate strategy removes all existing pods before new ones are created. 
+                Kubernetes first terminates all containers from the current version and then starts all new containers simultaneously when the old containers are gone.
+                With a recreate deployment strategy there is some downtime while all containers with old versions are stopped and no new containers are ready to handle incoming requests.  
+7. Service 
+        - Kubernetes Service is used to expose an application deployed on a set of pods using a single endpoint
+        -The type property in the Service's spec determines how the service is exposed to the network. It changes where a Service is able to be accessed from. The possible types are ClusterIP, NodePort, and LoadBalancer
+    ClusterIP 
+    - The default value. The service is only accessible from within the Kubernetes cluster 
+        you can’t make requests to your Pods from outside the cluster!
+    NodePort –
+      - This makes the service accessible on a static port on each Node in the cluster. 
+      This means that the service can handle requests that originate from outside the cluster.
+    LoadBalancer 
+      - The service becomes accessible externally through a cloud provider's load balancer functionality. 
+      GCP, AWS, Azure, and OpenStack offer this functionality. The cloud provider will create a load balancer, 
+     which then automatically routes requests to your Kubernetes Service
+8. Loadbalancer vs ingress
+   -If you use type LoadBalancer Service you'll spawn 10 HA Cloud load balancers (each costs money)
+   - if you use type Ingress Controller you'll spawn 1 HA Cloud load balancer(saves money), 
+ and it'll point to an Ingress Controller running in your cluster
+9. What is namespace 
+   Namespaces are Kubernetes objects which partition a single Kubernetes cluster into multiple virtual clusters. 
+   Each Kubernetes namespace provides the scope for Kubernetes Names it contains; which means that using the combination of an object name and a Namespace, 
+   each object gets an unique identity across the cluster
+10.Statefulsets vs deployments 
+    deployments and replication controllers are used for stateless applications and not as resource intensive.
+     Statefulsets on the other hand are used when you need to preserve the state of the application(Stateful application). 
+     To save the states stateful sets use volumeClaimTemplates/claims of persistent volumes in order to keep the state safe in case of crashes or restarts.
+    Basically StatefulSets are used for stateful applications where the data at any given point is important while stateless apps can be deployed using Deployments.
+11. Taints and Tolerations
+    they allow a node to repel a set of pods.
+Tolerations are applied to pods, and allow (but do not require) the pods to schedule onto nodes with matching taints.
+Taints and tolerations work together to ensure that pods are not scheduled onto desired  nodes. One or more taints are applied to a node; 
+this marks that the node should not accept any pods that do not tolerate the taints.
+  tolerations:
+  - key: "example-key"
+    operator: "Exists"
+    effect: "NoSchedule"
+
+12. nodeSelector
+ You can add the nodeSelector field to your Pod specification and specify the node labels
+ you want the target node to have. Kubernetes only schedules the Pod onto nodes that have each of the labels you specify.
+ kubectl label nodes
+           -nodeSelector:
+            disktype: ssd
+13.  Node Affinity
+      Node Affinity resembles the nodeSelector label i.e. it applies labels on the Node level. Plus, it comes with the below advantages which do not comply with nodeSelector method-
+       It offers more matching label rules rather than exact rules using logical operators.
+       Instead of applying a hard rule, node affinity provides us with soft/preference rules that enables the pod to bind with minimum availability.
+       requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/os
+            operator: In
+            values:
+14. Pod Affinity and Anti-Affinity
+ In Pod Affinity, the rules or preferences applies on the Pod level instead of a Node. That is, 
+ it decides which pods are eligible to bind to a node depending upon the label of pods running on the nodes rather than of nodes.
+ Affinity allows the allocation of pods on Nodes. While Anti-Affinity releases the Pods that are running on the Node based on the constraints.
+     requiredDuringSchedulingIgnoredDuringExecution
+     preferredDuringSchedulingIgnoredDuringExecution
+
+15. Liveliness probe vs Readiness probe 
+    When a liveness probe fails, it signals to apiserver that the probed container is dead and should be restarted. When a readiness probe fails, 
+    it indicates to OpenShift that the container being probed is not ready to receive incoming network traffic. 
+    The application might become ready in the future, but it should not receive traffic now.
+    If the liveness probe succeeds while the readiness probe fails,
+     apiserver knows that the container is not ready to receive network traffic but is working to become ready. 
+     For example, this is common in applications that take time to initialize
+16. What are Persistent Volumes 
+   A PersistentVolume (PV) is a storage resource in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes.
+   PV is a resource object in a Kubernetes cluster; creating a PV is equivalent to creating a storage resource object. To use this resource, 
+   it must be requested through persistent volume claims (PVC)
+17. What are Persistent Volume Claims (PVCs)?
+        PVC is a declaration defining the request for storage data usage, which is mounted into a Pod for use.
+         PVC is configured for use by developers, who do not necessarily care about the specific implementation of the underlying data storage, 
+         but more so about the business-related data storage size, access methods, etc.
+
+18. Lifecycle of PV and PVC
+           In a Kubernetes cluster, a PV exists as a storage resource in the cluster. PVCs are requests for those resources and also act as claim checks to the resource. The interaction between PVs and PVCs follows this lifecycle:
+
+          Provisioning - the creation of the PV, either directly (static) or dynamically using StorageClass.
+          Binding - assigning the PV to the PVC.
+        Using - Pods use the volume through the PVC.
+        Reclaiming - the PV is reclaimed, either by keeping it for the next use or by deleting it directly from the cloud storage.
+       
+        A volume will be in one of the following states:
+        Available - this state shows that the PV is ready to be used by the PVC.
+        Bound - this state shows that the PV has been assigned to a PVC.
+        Released - the claim has been deleted, but the cluster has not yet reclaimed the resource.
+        Failed - this state shows that an error has occurred in the PV.
+19. Kubernetes — Role-Based Access Control
+   RBAC with Kubernetes — Role, ClusterRole, RoleBinding, and ClusterRoleBinding.
+             Role:-Role defines what can be done to Kubernetes Resources.
+                  Role contains one or more rules that represent a set of permissions.
+                  Permissions are additive. There are no deny rules
+                  After creating a Role, you assign it to a user or group of users by creating a RoleBinding.
+             ClusterRole:-
+                   ClusterRole works the same as Role, but they are applied to the cluster as a whole.
+                   ClusterRoles are not bound to a specific namespace. ClusterRole give access across more than one namespace or all namespaces.
+                   After creating a ClusterRole, you assign it to a user or group of users by creating a RoleBinding or ClusterRoleBinding.
+                   ClusterRoles are typically used with service accounts
+                                     Default ClusterRole:
+                                           cluster-admin: Cluster wide super user.
+                                           admin: Full access within a Namespace.
+                                           edit: Read/write within a Namespace.
+                                           view: Read-only within a Namespace.
+              RoleBinding:-
+                      Role Binding is used for granting permission to a Subject.
+                      RoleBinding holds a list of subjects (users, groups, or service accounts), and a reference to the role being granted.
+                      Role and RoleBinding are used in namespaced scoped.
+                      RoleBinding may reference any Role in the same namespace.
+                    ClusterRole and RoleBinding are used provide access to more than one namespace or the whole cluster
+               ClusterRoleBinding:-
+                        clusterRole and ClusterRoleBinding function like Role and RoleBinding, except they have wider scope.
+                        RoleBinding grants permissions within a specific namespace, whereas a ClusterRoleBinding grants access cluster-wide and to multiple namespaces.
+                        ClusterRoleBinding is binding or associating a ClusterRole with a Subject (users, groups, or service accounts).           
+
+20. ConfigMap
+                A ConfigMap is  used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, 
+                command-line arguments, or as configuration files in a volume.      
+21. Secrets 
+            A Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key. 
+            Such information might otherwise be put in a Pod specification or in a container image. 
+            Using a Secret means that you don't need to include confidential data in your application code
+23. What is a Headless Service?
+        Headless Service is similar to that of a ‘Normal’ services but does not have a Cluster IP. 
+        This service enables you to directly reach the pods without the need of accessing it through a proxy
+24. What is Ingress network, and how does it work?
+     Ingress network is a collection of rules that acts as an entry point to the Kubernetes cluster. This allows inbound connections, which can be configured to give services externally through reachable URLs, load balance traffic, or by offering name-based virtual hosting. So, Ingress is an API object that manages external access to the services in a cluster, usually by HTTP and is the most powerful way of exposing service.
+ An Ingress Controller is a pod that can act as an inbound traffic handler.  Ingress Controller implemented as a HTTP reverse proxy. Prominent features are HTTP path and service based routing and SSL termination.
+25. What are the labels in Kubernetes
+        Labels are a collection of keys that contain some values. The key values are connected to pods, 
+        replication controllers, and associated services. Generally, labels are added to some object during its creation time. 
+        They can be modified by the users at run time.
+26. Explain Daemon sets?
+                A daemon set ensures that all the eligible nodes run a copy of the pod runs only once in a host. 
+                It was created and scheduled by the daemon controller. It is a process that runs in the background and does not produce any visible output.
+27. What is a sidecar container, and what is its use?
+        A sidecar container is a utility container used to support the main container in a Pod. 
+        We can pair a sidecar container with one or more main containers and enhance those primary containers' functionality. 
+        It is mainly used for monitoring or when the system logs.
