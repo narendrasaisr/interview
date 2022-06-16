@@ -1,5 +1,5 @@
 ### What is command for created multiple files at a time?
-Touch FILE1 FILE2
+    > Touch FILE1 FILE2
 ### What is INODE and How to Identify?
 Its unique identification code for files and directories, it is generated automatically while
 create new file and directories
