@@ -1,12 +1,10 @@
 ### What is command for created multiple files at a time?
     Touch FILE1 FILE2
 ### What is INODE and How to Identify?
-Its unique identification code for files and directories, it is generated automatically while we create new file and directories
-
+Its unique identification code for files and directories, it is generated automatically while we create new file and directories\
 Command to get inode number of a file and directory
     ls -i filename
-    ls -ldi directoryname
-    
+    ls -ldi directoryname  
 Command to get inode usage
     df -i
 ### List of Permissions and Users
